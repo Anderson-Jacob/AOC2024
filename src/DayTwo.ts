@@ -11,6 +11,9 @@ console.log('sample p1: ' + partOne(sampleFile, sampleLines));
 console.log('actual p1: ' + partOne(actualFile, actualLines));
 console.log('sample p2: ' + partTwo(sampleFile, sampleLines));
 console.log('actual p2: ' + partTwo(actualFile, actualLines));
+
+
+
 function partOne(file:string, lines:string[]): number{
 
     lines.forEach((line:string, index:number)=>{
