@@ -20,7 +20,7 @@ partTwo(actualFile, actualLines);
 function partOne(file:string, lines:string[]){
 
     lines.forEach((line:string, index:number)=>{
-
+        console.log(line.split(/(\s+)/).filter( e => e.trim().length > 0))
     });
 }
 function partTwo(file:string, lines:string[]){
