@@ -17,7 +17,7 @@ console.log('actual p2: ');
 partTwo(actualFile, actualLines);
 
 
-function partOne(string, lines:string[]){
+function partOne(file:string, lines:string[]){
     let count = 0;
     lines.forEach((line:string, index:number)=>{
         const vals = line.split(/(\s+)/).filter( e => e.trim().length > 0).map(s => Number(s))
@@ -28,7 +28,7 @@ function partOne(string, lines:string[]){
     });
     console.log(count)
 }
-function partTwo(string, lines:string[]){
+function partTwo(file:string, lines:string[]){
     let count = 0;
     lines.forEach((line:string, index:number)=>{
             const vals = line.split(/(\s+)/).filter( e => e.trim().length > 0).map(s => Number(s))
