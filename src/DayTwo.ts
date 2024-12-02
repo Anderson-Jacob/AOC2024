@@ -17,16 +17,52 @@ console.log('actual p2: ');
 partTwo(actualFile, actualLines);
 
 
-function partOne(file:string, lines:string[]){
-
+function partOne(string, lines:string[]){
+    let count = 0;
     lines.forEach((line:string, index:number)=>{
-        console.log(line.split(/(\s+)/).filter( e => e.trim().length > 0))
+        const vals = line.split(/(\s+)/).filter( e => e.trim().length > 0).map(s => Number(s))
+        if(vals.length == 0)
+            return;
+        if(tryDec(vals) || tryInc(vals))
+            count++;
     });
+    console.log(count)
 }
-function partTwo(file:string, lines:string[]){
-
+function partTwo(string, lines:string[]){
+    let count = 0;
     lines.forEach((line:string, index:number)=>{
+            const vals = line.split(/(\s+)/).filter( e => e.trim().length > 0).map(s => Number(s))
 
+            if(vals.length === 0)
+                return;
+            for(let i = 0; i<vals.length; i++) {
+                const updated = vals.filter((v, ind) => ind !== i);
+                if (tryInc(updated) || tryDec(updated)) {
+                    count++
+                    break;
+                }
+            }
     });
+    console.log(count);
+}
+function tryInc(vals:number[]):boolean{
+    let num = vals[0];
+    for(let i = 1; i<vals.length; i++){
+        if(vals[i] - num > 3 || vals[i] - num < 1){
+            return false
+        }
+        num = vals[i];
+    }
+    return true
+}
+function tryDec(vals:number[]):boolean{
+    let num = vals[0];
 
+    for(let i = 1; i<vals.length; i++){
+        if(vals[i] - num < -3 || vals[i] - num > -1){
+            return false
+        }
+        num = vals[i];
+    }
+    return true
 }
