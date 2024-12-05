@@ -31,8 +31,7 @@ function partOne(file:string, lines:string[]){
     console.log(sum)
 }
 function partTwo(file:string, lines:string[]){
-    const stuff = processRules(lines)
-    const beforeMap = stuff[0]
+    const beforeMap = processRules(lines)
     const output = reorderAll(lines, beforeMap);
     const original = output[0]
     const reordered = output[1]
