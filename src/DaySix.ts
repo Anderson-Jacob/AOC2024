@@ -18,8 +18,6 @@ partTwo(actualFile, actualLines);
 
 
 function partOne(file:string, lines:string[]){
-    const rows = lines.length
-    const cols = lines[0].length
     let i = 0;
     let j = 0;
     let lineChars = lines.map(str => str.split(""))
@@ -29,14 +27,13 @@ function partOne(file:string, lines:string[]){
             j = str.indexOf("^")
         }
     })
+
     let visits  = new Set<string>()
-    while(inBounds(i,j, rows, cols)){
-     //   printArr(lineChars)
+    while(inBounds(i,j, lineChars)){
         visits.add(toStr(i,j))
-        const newCoords = move(i, j, rows, cols, lineChars);
+        const newCoords = move(i, j, lineChars);
         i = newCoords[0]
         j = newCoords[1]
-     //   console.log("\n\n\n step \n\n\n")
     }
     console.log(visits.size)
 
@@ -56,17 +53,16 @@ function partTwo(file:string, lines:string[]){
     const initI = i
     const initJ = j
     let visits  = new Set<string>()
-    while(inBounds(i,j, rows, cols)){
-        //   printArr(lineChars)
+    while(inBounds(i,j, lineChars)){
         visits.add(toStr(i,j))
-        const newCoords = move(i, j, rows, cols, lineChars);
+        const newCoords = move(i, j, lineChars);
         i = newCoords[0]
         j = newCoords[1]
-        //   console.log("\n\n\n step \n\n\n")
     }
 
     let positions = 0;
     visits.delete(toStr(initI, initJ))
+
     visits.forEach(visit => {
         lineChars = lines.map(str => str.split(""))
         const numbers = parseVisit(visit);
@@ -80,19 +76,19 @@ function partTwo(file:string, lines:string[]){
     console.log(positions)
 
 }
-function inBounds(i:number, j:number, rows:number, cols:number){
-    return i > -1 && j > -1 && i < rows && j < cols;
+function inBounds(i:number, j:number, lineChars:string[][]){
+    return i > -1 && j > -1 && i < lineChars.length && j < lineChars[0].length;
 }
 function toStr(i:number,j:number){
     return `${i}|${j}`;
 }
-function move(i:number, j:number, rows:number, cols:number, lineChars:string[][]){
+function move(i:number, j:number, lineChars:string[][]){
     const char = lineChars[i][j]
     const dir = getDir(char)
     lineChars[i][j] = ".";
     i+=dir[0]
     j+=dir[1]
-    if(!inBounds(i,j, rows, cols)){
+    if(!inBounds(i,j, lineChars)){
         return [i,j]
     }
     if(lineChars[i][j]=="#"){
@@ -120,18 +116,13 @@ function rotate90(char:string){
         case "<": return "^"
     }
 }
-function printArr(s:string[][]){
-    s.forEach(s=>console.log(s.join(' ')))
-}
 function parseVisit(s:string){
     const arr = s.split("|")
     return [Number(arr[0]), Number(arr[1])]
 }
 function causesLoop(i:number, j:number, lineChars:string[][]) {
     let movements = new Set<string>
-    const rows = lineChars.length
-    const cols = lineChars[0].length
-    while (inBounds(i, j, rows, cols)) {
+    while (inBounds(i, j, lineChars)) {
         const char = lineChars[i][j]
         const dir = getDir(char)
         const str = moveStr(i, j, dir)
@@ -142,7 +133,7 @@ function causesLoop(i:number, j:number, lineChars:string[][]) {
         lineChars[i][j] = ".";
         i+=dir[0]
         j+=dir[1]
-        if(!inBounds(i,j, rows, cols)){
+        if(!inBounds(i,j, lineChars)){
             return false
         }
         if(lineChars[i][j]=="#"){
