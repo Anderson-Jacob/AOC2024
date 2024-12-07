@@ -62,7 +62,6 @@ function partTwo(file:string, lines:string[]){
 
     let positions = 0;
     visits.delete(toStr(initI, initJ))
-
     visits.forEach(visit => {
         lineChars = lines.map(str => str.split(""))
         const numbers = parseVisit(visit);
