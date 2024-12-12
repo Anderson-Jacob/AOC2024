@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import * as timers from "node:timers";
 
 const filename = "actual-input.txt";
 const filename2 = "sample.txt";
@@ -51,6 +52,43 @@ function blinkDP(stones: string[], rounds: number) {
   stones.forEach((str) => dp.set(str, 1));
   for (let i = 0; i < rounds; i++) {
     let nr = new Map<string, number>();
+    dp.forEach((count, num) => {
+      if (num === "0") {
+        if (nr.has("1")) {
+          count += nr.get("1");
+        }
+        nr.set("1", count);
+      } else if (num.length % 2 === 0) {
+        const fh = String(Number(num.substring(0, num.length / 2)));
+        const sh = String(Number(num.substring(num.length / 2)));
+        let count1 = count;
+        let count2 = count;
+        if (nr.has(fh)) {
+          count1 += nr.get(fh);
+        }
+        nr.set(fh, count1);
+        if (nr.has(sh)) {
+          count2 += nr.get(sh);
+        }
+        nr.set(sh, count2);
+      } else {
+        const next = String(Number(num) * 2024);
+        if (nr.has(next)) {
+          count += nr.get(next);
+        }
+        nr.set(next, count);
+      }
+    });
+    dp = nr;
+  }
+  return Array.from(dp.values()).reduce((prev, curr) => prev + curr);
+}
+
+function blinkDPBigInt(stones: string[], rounds: number) {
+  let dp = new Map<string, bigint>();
+  stones.forEach((str) => dp.set(str, BigInt(1)));
+  for (let i = 0; i < rounds; i++) {
+    let nr = new Map<string, bigint>();
     dp.forEach((count, num) => {
       if (num === "0") {
         if (nr.has("1")) {
