@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@datastructures-js/queue": "^4.2.3",
     "@types/node": "^22.10.1"
   },
   "devDependencies": {
